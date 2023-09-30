@@ -24,6 +24,8 @@ export class BellGameRoom extends Room<BellGameRoomState> {
     this.setState(new BellGameRoomState());
 
     this.onMessage("answer", (client, message) => {
+      console.log("Got ", message, " from ", client.sessionId)
+
         if (!this.answers.has(client.sessionId)){
           this.answers.set(client.sessionId, Boolean(message))
         }
@@ -72,6 +74,7 @@ export class BellGameRoom extends Room<BellGameRoomState> {
     var input = Math.random() >= 0.5;
     this.inputs.set(client.sessionId, input);
     client.send("input", input)
+    console.log("Sending ", input, " to ", client.sessionId)
   });
 }
 
