@@ -39,19 +39,19 @@ export default config({
         app.get("/dbreset", (req, res) =>{
             
             
-            const adapter = new JSONFileSync<Result>("db.json");
+            const adapter = new JSONFileSync<Result>("/tmp/db.json");
             const db = new LowSync(adapter, defaultResult)
             db.write()
             res.send("Done")
         })
 
         app.get("/dbdownload", (req, res) =>{
-            res.download(path.dirname(__dirname)+"/db.json")
+            res.download("/tmp/db.json")
         })
 
 
         app.get("/analyse", (req, res) => {
-            const adapter = new JSONFileSync<Result>("db.json");
+            const adapter = new JSONFileSync<Result>("/tmp/db.json");
             const db = new LowSync(adapter, defaultResult)
             db.read()
 

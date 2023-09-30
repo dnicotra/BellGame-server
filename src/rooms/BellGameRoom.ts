@@ -11,7 +11,7 @@ type Result = {
 }
 
 const defaultResult: Result = { player_ids: [], input_bits: [], answer_bits: [], won: [] }
-const adapter = new JSONFileSync<Result>("db.json");
+const adapter = new JSONFileSync<Result>("/tmp/db.json");
 const db = new LowSync(adapter, defaultResult)
 db.read()
 
