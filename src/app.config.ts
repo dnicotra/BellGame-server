@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import { LowSync } from "lowdb";
 import { JSONFileSync } from "lowdb/node";
 import * as path from "path"
+import cors from "cors"
 
 /**
  * Import your Room files
@@ -32,6 +33,15 @@ export default config({
          * Bind your custom express routes here:
          * Read more: https://expressjs.com/en/starter/basic-routing.html
          */
+        // Add a list of allowed origins.
+// If you have more origins you would like to add, you can add them to the array below.
+        const allowedOrigins = ['http://localhost:5173'];
+
+        const options: cors.CorsOptions = {
+        origin: allowedOrigins
+        };
+        app.use(cors(options))
+
         app.get("/hello_world", (req, res) => {
             res.send("It's time to kick ass and chew bubblegum!");
         });
