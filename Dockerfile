@@ -1,6 +1,7 @@
 FROM node:latest
 
 ENV PORT 8080
+ENV npm_config_cache /home/node/app/.npm
 
 WORKDIR /usr/src/app
 
