@@ -12,6 +12,7 @@ RUN npm install
 # npm ci --only=production
 
 COPY . .
+RUN sudo npm cache clean --force
 
 EXPOSE 8080
 
