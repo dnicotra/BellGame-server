@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:20
 
 ENV PORT 8080
 ENV npm_config_cache /home/node/app/.npm

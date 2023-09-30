@@ -1,4 +1,6 @@
 import config from "@colyseus/tools";
+import { playground } from "@colyseus/playground";
+import { monitor } from "@colyseus/monitor";
 import express, { Express, Request, Response } from 'express';
 import { LowSync } from "lowdb";
 import { JSONFileSync } from "lowdb/node";
@@ -72,6 +74,9 @@ export default config({
                 )
         })
 
+        app.use("/debug", playground)
+        app.use("/monitor", monitor())
+        
         /**
          * Use @colyseus/playground
          * (It is not recommended to expose this route in a production environment)
