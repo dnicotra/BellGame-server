@@ -21,7 +21,7 @@ export class BellGameRoom extends Room<BellGameRoomState> {
   maxClients = 2;
   inputs = new Map<string, boolean>();
   answers = new Map<string, boolean>();
-  qstate = quantum.default.rho0;
+  qstate = quantum.default.rho0.clone();
 
   onCreate (options: any) {
     this.setState(new BellGameRoomState());
@@ -98,7 +98,7 @@ export class BellGameRoom extends Room<BellGameRoomState> {
   }
 
   startGame(){
-    this.qstate = quantum.default.rho0;
+    this.qstate = quantum.default.rho0.clone();
     this.inputs.clear();
     this.answers.clear();
     this.sendInputs();
