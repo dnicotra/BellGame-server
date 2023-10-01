@@ -89,7 +89,7 @@ export default config({
             let err = 3*Math.sqrt(prob*(1-prob)/n_tot)
 
             res.send("<h1> Winning Probability = " + 
-                (100*prob).toFixed(2).toString() + " <span>&#177;</span> "+(100*prob).toFixed(2).toString()+"%<h1/>"
+                (100*prob).toFixed(2).toString() + " <span>&#177;</span> "+(100*err).toFixed(2).toString()+"%<h1/>"
                 )
         })
 
@@ -104,7 +104,7 @@ export default config({
             let err = 3*Math.sqrt(prob*(1-prob)/n_tot)
 
             res.send("<h1> Winning Probability = " + 
-                (100*prob).toFixed(2).toString() + " <span>&#177;</span> "+(100*prob).toFixed(2).toString()+"%<h1/>"
+                (100*prob).toFixed(2).toString() + " <span>&#177;</span> "+(100*err).toFixed(2).toString()+"%<h1/>"
                 )
         })
 
