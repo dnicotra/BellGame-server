@@ -2,6 +2,8 @@ import { Room, Client } from "@colyseus/core";
 import { BellGameRoomState } from "./schema/BellGameRoomState";
 import { LowSync } from "lowdb";
 import { JSONFileSync } from "lowdb/node";
+import * as math from "mathjs"
+import * as quantum from "../quantum"
 
 type Result = {
   player_ids  : string[][],
@@ -10,7 +12,7 @@ type Result = {
   won         :  boolean[]
 }
 
-const defaultResult: Result = { player_ids: [], input_bits: [], answer_bits: [], won: [] }
+const defaultResult: Result = { player_ids: [], input_bits: [], answer_bits: [], won: []}
 const adapter = new JSONFileSync<Result>("/tmp/db.json");
 const db = new LowSync(adapter, defaultResult)
 db.read()
@@ -19,6 +21,7 @@ export class BellGameRoom extends Room<BellGameRoomState> {
   maxClients = 2;
   inputs = new Map<string, boolean>();
   answers = new Map<string, boolean>();
+  qstate = quantum.default.rho0;
 
   onCreate (options: any) {
     this.setState(new BellGameRoomState());
@@ -44,6 +47,39 @@ export class BellGameRoom extends Room<BellGameRoomState> {
       }
 
     });
+
+    this.onMessage("measureA0", (client, message) => {
+      const qid = this.clients.indexOf(client);
+      const meas = quantum.default.QA0_kronproj[qid];
+      const result = quantum.default.measurement(this.qstate, meas)
+      this.qstate = result.new_state;
+      client.send("measurement", result.outcome)
+    })
+
+    this.onMessage("measureA1", (client, message) => {
+      const qid = this.clients.indexOf(client);
+      const meas = quantum.default.QA1_kronproj[qid];
+      const result = quantum.default.measurement(this.qstate, meas)
+      this.qstate = result.new_state;
+      client.send("measurement", result.outcome)
+    })
+
+    this.onMessage("measureB0", (client, message) => {
+      const qid = this.clients.indexOf(client);
+      const meas = quantum.default.QB0_kronproj[qid];
+      const result = quantum.default.measurement(this.qstate, meas)
+      this.qstate = result.new_state;
+      client.send("measurement", result.outcome)
+    })
+
+    this.onMessage("measureB1", (client, message) => {
+      const qid = this.clients.indexOf(client);
+      const meas = quantum.default.QB1_kronproj[qid];
+      const result = quantum.default.measurement(this.qstate, meas)
+      this.qstate = result.new_state;
+      client.send("measurement", result.outcome)
+    })
+
   }
 
   onJoin (client: Client, options: any) {
@@ -62,9 +98,10 @@ export class BellGameRoom extends Room<BellGameRoomState> {
   }
 
   startGame(){
-    this.inputs.clear()
-    this.answers.clear()
-    this.sendInputs()
+    this.qstate = quantum.default.rho0;
+    this.inputs.clear();
+    this.answers.clear();
+    this.sendInputs();
   }
 
 
@@ -89,3 +126,4 @@ export class BellGameRoom extends Room<BellGameRoomState> {
 
   }
 }
+
