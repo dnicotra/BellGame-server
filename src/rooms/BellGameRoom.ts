@@ -107,10 +107,11 @@ export class BellGameRoom extends Room<BellGameRoomState> {
 
   sendInputs() {
   this.state.attemptNumber += 1;
-  this.clients.forEach(client => {
+  this.clients.forEach((client, index) => {
     var input = Math.random() >= 0.5;
     this.inputs.set(client.sessionId, input);
     client.send("input", input)
+    client.send("role", index)
     console.log("Sending ", input, " to ", client.sessionId)
   });
 }
