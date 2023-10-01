@@ -11,6 +11,7 @@ import cors from "cors"
  * Import your Room files
  */
 import { BellGameRoom } from "./rooms/BellGameRoom";
+import { BellGameRoomEinstein } from "./rooms/BellGameRoomEinstein";
 
 type Result = {
                 player_ids  : string[][],
@@ -27,6 +28,7 @@ export default config({
          * Define your room handlers:
          */
         gameServer.define('bell_game_room', BellGameRoom);
+        gameServer.define('bell_game_room_einstein', BellGameRoomEinstein);
 
     },
 
@@ -48,22 +50,47 @@ export default config({
             res.send("It's time to kick ass and chew bubblegum!");
         });
 
-        app.get("/dbreset", (req, res) =>{
+        app.get("/reset_quantum", (req, res) =>{
             
             
-            const adapter = new JSONFileSync<Result>("/tmp/db.json");
+            const adapter = new JSONFileSync<Result>("/tmp/db_quantum.json");
             const db = new LowSync(adapter, defaultResult)
             db.write()
             res.send("Done")
         })
 
-        app.get("/dbdownload", (req, res) =>{
-            res.download("/tmp/db.json")
+        app.get("/reset_einstein", (req, res) =>{
+            
+            
+            const adapter = new JSONFileSync<Result>("/tmp/db_einstein.json");
+            const db = new LowSync(adapter, defaultResult)
+            db.write()
+            res.send("Done")
+        })
+
+        app.get("/download_quantum", (req, res) =>{
+            res.download("/tmp/db_quantum.json")
+        })
+
+        app.get("/download_einstein", (req, res) =>{
+            res.download("/tmp/db_einstein.json")
         })
 
 
-        app.get("/analyse", (req, res) => {
-            const adapter = new JSONFileSync<Result>("/tmp/db.json");
+        app.get("/analyse_quantum", (req, res) => {
+            const adapter = new JSONFileSync<Result>("/tmp/db_quantum.json");
+            const db = new LowSync(adapter, defaultResult)
+            db.read()
+
+            let n_won = db.data.won.filter(val => val).length
+            let n_tot = db.data.won.length
+            res.send("<h1> Winning Probability = " + 
+                (100*n_won/n_tot).toFixed(2).toString() + "%<h1/>"
+                )
+        })
+
+        app.get("/analyse_einstein", (req, res) => {
+            const adapter = new JSONFileSync<Result>("/tmp/db_einstein.json");
             const db = new LowSync(adapter, defaultResult)
             db.read()
 

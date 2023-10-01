@@ -13,15 +13,15 @@ type Result = {
 }
 
 const defaultResult: Result = { player_ids: [], input_bits: [], answer_bits: [], won: []}
-const adapter = new JSONFileSync<Result>("/tmp/db_quantum.json");
+const adapter = new JSONFileSync<Result>("/tmp/db_einstein.json");
 const db = new LowSync(adapter, defaultResult)
 db.read()
 
-export class BellGameRoom extends Room<BellGameRoomState> {
+export class BellGameRoomEinstein extends Room<BellGameRoomState> {
   maxClients = 2;
   inputs = new Map<string, boolean>();
   answers = new Map<string, boolean>();
-  qstate = quantum.default.rho0.clone();
+  qstate = quantum.default.rho1.clone();
 
   onCreate (options: any) {
     this.setState(new BellGameRoomState());

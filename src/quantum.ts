@@ -3,6 +3,13 @@ const repr = "dense";
 
 
 const rho0 = math.matrix([
+  [0.5, 0, 0, 0.5],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0.5, 0, 0, 0.5],
+]);
+
+const rho1 = math.matrix([
   [0.5, 0, 0, 0],
   [0, 0, 0, 0],
   [0, 0, 0, 0],
@@ -108,5 +115,5 @@ export default{
           };
         }
       },
-      QA0_kronproj, QA1_kronproj, QB0_kronproj, QB1_kronproj, rho0
+      QA0_kronproj, QA1_kronproj, QB0_kronproj, QB1_kronproj, rho0, rho1
 }
