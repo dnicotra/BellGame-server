@@ -84,8 +84,12 @@ export default config({
 
             let n_won = db.data.won.filter(val => val).length
             let n_tot = db.data.won.length
+
+            let prob = n_won/n_tot
+            let err = 3*Math.sqrt(prob*(1-prob)/n_tot)
+
             res.send("<h1> Winning Probability = " + 
-                (100*n_won/n_tot).toFixed(2).toString() + "%<h1/>"
+                (100*prob).toFixed(2).toString() + " <span>&#177;</span> "+(100*prob).toFixed(2).toString()+"%<h1/>"
                 )
         })
 
@@ -96,8 +100,11 @@ export default config({
 
             let n_won = db.data.won.filter(val => val).length
             let n_tot = db.data.won.length
+            let prob = n_won/n_tot
+            let err = 3*Math.sqrt(prob*(1-prob)/n_tot)
+
             res.send("<h1> Winning Probability = " + 
-                (100*n_won/n_tot).toFixed(2).toString() + "%<h1/>"
+                (100*prob).toFixed(2).toString() + " <span>&#177;</span> "+(100*prob).toFixed(2).toString()+"%<h1/>"
                 )
         })
 
